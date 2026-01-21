@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoNotatnik</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4CAF50">
+</head>
+<body>
+    <nav>
+        <h1>GeoNotatnik</h1>
+        <div id="offline-indicator" class="hidden">Jesteś Offline ⚠️</div>
+    </nav>
+    <section id="view-home" class="view active">
+        <h2>Twoje Wspomnienia</h2>
+        <div id="notes-list">
+            <p class="empty-msg">Brak notatek. Dodaj pierwszą!</p>
+        </div>
+        <button class="fab" onclick="switchView('view-add')">+</button>
+    </section>
+    <section id="view-add" class="view">
+        <h2>Nowe Wspomnienie</h2>
+        <div class="camera-container">
+            <video id="video" autoplay playsinline></video>
+            <canvas id="canvas" style="display:none;"></canvas>
+            <img id="photo-preview" alt="Podgląd" style="display:none;">
+        </div>
+        <button id="btn-capture" class="btn-primary">��� Zrób Zdjęcie</button>     
+        <div class="geo-info">
+            <p>Lokalizacja: <span id="location-status">Czekam na GPS...</span></p>
+        </div>   
+        <div class="actions">
+            <button onclick="saveNote()" id="btn-save" disabled>Zapisz</button>
+            <button onclick="switchView('view-home')" class="btn-secondary">Anuluj</button>
+        </div>
+    </section>
+    <section id="view-info" class="view">
+        <h2>O Aplikacji</h2>
+        <p>Projekt zaliczeniowy PWA.</p>
+        <p>Wykorzystuje: Kamerę, GPS, Cache API.</p>
+        <button onclick="switchView('view-home')" class="btn-secondary">Wróć</button>
+    </section>
+    <footer>
+        <button onclick="switchView('view-home')">��� Dom</button>
+        <button onclick="switchView('view-info')">ℹ️ Info</button>
+    </footer>
+    <script src="app.js"></script>
+</body>
+</html>
