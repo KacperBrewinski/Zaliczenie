@@ -3,11 +3,7 @@ let currentLng = null;
 let photoData = null;
 
 if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-            .then(() => console.log('SW Registered'))
-            .catch(err => console.error('SW Error:', err));
-    });
+    window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js'));
 }
 
 function updateOnlineStatus() {
@@ -20,7 +16,14 @@ window.addEventListener('offline', updateOnlineStatus);
 function switchView(viewId) {
     document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
     document.getElementById(viewId).classList.add('active');
-    if (viewId === 'view-add') { startCamera(); getLocation(); } else { stopCamera(); }
+    
+    if (viewId === 'view-add') { 
+        startCamera(); 
+        // Opóźnienie, żeby interfejs zdążył się załadować przed pytaniem o GPS
+        setTimeout(getLocation, 500); 
+    } else { 
+        stopCamera(); 
+    }
 }
 
 async function startCamera() {
@@ -32,7 +35,7 @@ async function startCamera() {
     try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
         video.srcObject = stream;
-    } catch (err) { alert("Błąd kamery: " + err); }
+    } catch (err) { console.error(err); alert("Daj dostęp do kamery!"); }
 }
 
 function stopCamera() {
@@ -54,18 +57,37 @@ document.getElementById('btn-capture').addEventListener('click', () => {
     checkReadyToSave();
 });
 
+// POPRAWIONA FUNKCJA GPS
 function getLocation() {
     const status = document.getElementById('location-status');
-    status.innerText = "Szukam...";
-    if (!navigator.geolocation) return;
+    status.innerText = "���️ Szukam sygnału...";
+    
+    if (!navigator.geolocation) {
+        status.innerText = "❌ Twój telefon nie wspiera GPS";
+        return;
+    }
+
+    // Opcje wymuszające dokładność (ważne dla Androida/iOS)
+    const options = {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
+    };
+
     navigator.geolocation.getCurrentPosition(
         (pos) => {
             currentLat = pos.coords.latitude;
             currentLng = pos.coords.longitude;
-            status.innerText = `${currentLat.toFixed(4)}, ${currentLng.toFixed(4)}`;
+            status.innerText = `✅ ${currentLat.toFixed(5)}, ${currentLng.toFixed(5)}`;
+            status.style.color = "green";
             checkReadyToSave();
         },
-        () => { status.innerText = "Błąd GPS"; }
+        (err) => { 
+            console.warn(err);
+            status.innerText = "❌ Błąd GPS (Sprawdź uprawnienia!)";
+            status.style.color = "red";
+        },
+        options
     );
 }
 
@@ -86,11 +108,15 @@ function renderNotes() {
     const list = document.getElementById('notes-list');
     const notes = JSON.parse(localStorage.getItem('geo-notes') || '[]');
     list.innerHTML = '';
-    if (notes.length === 0) { list.innerHTML = '<p class="empty-msg">Brak notatek.</p>'; return; }
+    if (notes.length === 0) { list.innerHTML = '<p style="text-align:center; color:#888; margin-top:50px;">Brak notatek. Kliknij + aby dodać!</p>'; return; }
     notes.forEach(note => {
         const div = document.createElement('div');
         div.className = 'note-card';
-        div.innerHTML = `<img src="${note.image}" style="border-radius:4px; max-height:200px; object-fit:cover;"><p><strong>Lokalizacja:</strong> ${note.lat ? `${note.lat.toFixed(4)}, ${note.lng.toFixed(4)}` : 'Brak danych'}</p><p class="note-date">${note.date}</p>`;
+        div.innerHTML = `
+            <img src="${note.image}">
+            <p><strong>��� Lokalizacja:</strong> ${note.lat ? `<a href="https://maps.google.com/?q=${note.lat},${note.lng}" target="_blank">${note.lat.toFixed(4)}, ${note.lng.toFixed(4)}</a>` : 'Brak danych'}</p>
+            <p class="note-date">��� ${note.date}</p>
+        `;
         list.appendChild(div);
     });
 }

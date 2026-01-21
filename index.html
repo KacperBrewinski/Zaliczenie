@@ -6,20 +6,20 @@
     <title>GeoNotatnik</title>
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#4CAF50">
+    <meta name="theme-color" content="#38ef7d">
 </head>
 <body>
     <nav>
-        <h1>GeoNotatnik</h1>
-        <div id="offline-indicator" class="hidden">Jeste≈õ Offline ‚ö†Ô∏è</div>
+        <h1>GeoNotatnik Ìºç</h1>
+        <div id="offline-indicator" class="hidden">Brak internetu ‚ö†Ô∏è</div>
     </nav>
+
     <section id="view-home" class="view active">
-        <h2>Twoje Wspomnienia</h2>
-        <div id="notes-list">
-            <p class="empty-msg">Brak notatek. Dodaj pierwszƒÖ!</p>
-        </div>
+        <h2 style="color: #444;">Twoje Wspomnienia</h2>
+        <div id="notes-list"></div>
         <button class="fab" onclick="switchView('view-add')">+</button>
     </section>
+
     <section id="view-add" class="view">
         <h2>Nowe Wspomnienie</h2>
         <div class="camera-container">
@@ -27,25 +27,36 @@
             <canvas id="canvas" style="display:none;"></canvas>
             <img id="photo-preview" alt="PodglƒÖd" style="display:none;">
         </div>
-        <button id="btn-capture" class="btn-primary">Ì≥∑ Zr√≥b Zdjƒôcie</button>     
-        <div class="geo-info">
-            <p>Lokalizacja: <span id="location-status">Czekam na GPS...</span></p>
-        </div>   
+        
+        <button id="btn-capture" class="btn-primary">Ì≥∑ Zr√≥b Zdjƒôcie</button>
+        
+        <div style="background: white; padding: 15px; border-radius: 12px; margin: 15px 0;">
+            <p style="margin:0; font-weight:bold;">Ì≥ç Lokalizacja:</p>
+            <p id="location-status" style="margin:5px 0; color: #666;">Czekam na GPS...</p>
+            <button onclick="getLocation()" class="btn-outline" style="font-size: 0.8rem; padding: 8px;">Ì¥Ñ Spr√≥buj pobraƒá ponownie</button>
+        </div>
+        
         <div class="actions">
-            <button onclick="saveNote()" id="btn-save" disabled>Zapisz</button>
+            <button onclick="saveNote()" id="btn-save" class="btn-primary" disabled>Ì≤æ Zapisz notatkƒô</button>
             <button onclick="switchView('view-home')" class="btn-secondary">Anuluj</button>
         </div>
     </section>
+
     <section id="view-info" class="view">
         <h2>O Aplikacji</h2>
-        <p>Projekt zaliczeniowy PWA.</p>
-        <p>Wykorzystuje: Kamerƒô, GPS, Cache API.</p>
+        <div class="note-card">
+            <p><strong>Autor:</strong> Student</p>
+            <p><strong>Technologie:</strong> PWA, JS, Camera API, Geolocation.</p>
+            <p>Aplikacja zaliczeniowa stworzona w celu demonstracji mo≈ºliwo≈õci natywnych przeglƒÖdarki.</p>
+        </div>
         <button onclick="switchView('view-home')" class="btn-secondary">Wr√≥ƒá</button>
     </section>
+
     <footer>
-        <button onclick="switchView('view-home')">Ìø† Dom</button>
-        <button onclick="switchView('view-info')">‚ÑπÔ∏è Info</button>
+        <button onclick="switchView('view-home')">Ìø†</button>
+        <button onclick="switchView('view-info')">‚ÑπÔ∏è</button>
     </footer>
+
     <script src="app.js"></script>
 </body>
 </html>
