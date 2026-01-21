@@ -16,7 +16,6 @@ window.addEventListener('offline', updateOnlineStatus);
 function switchView(viewId) {
     document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
     document.getElementById(viewId).classList.add('active');
-    
     if (viewId === 'view-add') { 
         startCamera(); 
         setTimeout(getLocation, 500); 
@@ -58,25 +57,16 @@ document.getElementById('btn-capture').addEventListener('click', () => {
 
 function getLocation() {
     const status = document.getElementById('location-status');
-    // Emotka satelity
-    status.innerText = "üõ∞Ô∏è Szukam sygna≈Çu...";
-    
+    status.innerText = "Ìª∞Ô∏è Szukam sygna≈Çu...";
     if (!navigator.geolocation) {
         status.innerText = "‚ùå Tw√≥j telefon nie wspiera GPS";
         return;
     }
-
-    const options = {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 0
-    };
-
+    const options = { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 };
     navigator.geolocation.getCurrentPosition(
         (pos) => {
             currentLat = pos.coords.latitude;
             currentLng = pos.coords.longitude;
-            // Emotka sukcesu
             status.innerText = `‚úÖ ${currentLat.toFixed(5)}, ${currentLng.toFixed(5)}`;
             status.style.color = "green";
             checkReadyToSave();
@@ -113,8 +103,8 @@ function renderNotes() {
         div.className = 'note-card';
         div.innerHTML = `
             <img src="${note.image}">
-            <p><strong>üìç Lokalizacja:</strong> ${note.lat ? `<a href="https://maps.google.com/?q=${note.lat},${note.lng}" target="_blank">${note.lat.toFixed(4)}, ${note.lng.toFixed(4)}</a>` : 'Brak danych'}</p>
-            <p class="note-date">üìÖ ${note.date}</p>
+            <p><strong>Ì≥ç Lokalizacja:</strong> ${note.lat ? `<a href="https://maps.google.com/?q=${note.lat},${note.lng}" target="_blank">${note.lat.toFixed(4)}, ${note.lng.toFixed(4)}</a>` : 'Brak danych'}</p>
+            <p class="note-date">Ì≥Ö ${note.date}</p>
         `;
         list.appendChild(div);
     });

@@ -10,16 +10,14 @@
 </head>
 <body>
     <nav>
-        <h1>GeoNotatnik ğŸŒ</h1>
+        <h1>GeoNotatnik í¼</h1>
         <div id="offline-indicator" class="hidden">Brak internetu âš ï¸</div>
     </nav>
-
     <section id="view-home" class="view active">
         <h2 style="color: #444;">Twoje Wspomnienia</h2>
         <div id="notes-list"></div>
         <button class="fab" onclick="switchView('view-add')">+</button>
     </section>
-
     <section id="view-add" class="view">
         <h2>Nowe Wspomnienie</h2>
         <div class="camera-container">
@@ -27,21 +25,17 @@
             <canvas id="canvas" style="display:none;"></canvas>
             <img id="photo-preview" alt="PodglÄ…d" style="display:none;">
         </div>
-        
-        <button id="btn-capture" class="btn-primary">ğŸ“· ZrÃ³b ZdjÄ™cie</button>
-        
+        <button id="btn-capture" class="btn-primary">í³· ZrÃ³b ZdjÄ™cie</button>     
         <div style="background: white; padding: 15px; border-radius: 12px; margin: 15px 0;">
-            <p style="margin:0; font-weight:bold;">ğŸ“ Lokalizacja:</p>
+            <p style="margin:0; font-weight:bold;">í³ Lokalizacja:</p>
             <p id="location-status" style="margin:5px 0; color: #666;">Czekam na GPS...</p>
-            <button onclick="getLocation()" class="btn-outline" style="font-size: 0.8rem; padding: 8px;">ğŸ”„ SprÃ³buj pobraÄ‡ ponownie</button>
+            <button onclick="getLocation()" class="btn-outline" style="font-size: 0.8rem; padding: 8px;">í´„ SprÃ³buj pobraÄ‡ ponownie</button>
         </div>
-        
         <div class="actions">
-            <button onclick="saveNote()" id="btn-save" class="btn-primary" disabled>ğŸ’¾ Zapisz notatkÄ™</button>
+            <button onclick="saveNote()" id="btn-save" class="btn-primary" disabled>í²¾ Zapisz notatkÄ™</button>
             <button onclick="switchView('view-home')" class="btn-secondary">Anuluj</button>
         </div>
     </section>
-
     <section id="view-info" class="view">
         <h2>O Aplikacji</h2>
         <div class="note-card">
@@ -51,12 +45,10 @@
         </div>
         <button onclick="switchView('view-home')" class="btn-secondary">WrÃ³Ä‡</button>
     </section>
-
     <footer>
-        <button onclick="switchView('view-home')">ğŸ </button>
+        <button onclick="switchView('view-home')">í¿ </button>
         <button onclick="switchView('view-info')">â„¹ï¸</button>
     </footer>
-
     <script src="app.js"></script>
 </body>
 </html>
