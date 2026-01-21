@@ -19,7 +19,6 @@ function switchView(viewId) {
     
     if (viewId === 'view-add') { 
         startCamera(); 
-        // Opóźnienie, żeby interfejs zdążył się załadować przed pytaniem o GPS
         setTimeout(getLocation, 500); 
     } else { 
         stopCamera(); 
@@ -57,17 +56,16 @@ document.getElementById('btn-capture').addEventListener('click', () => {
     checkReadyToSave();
 });
 
-// POPRAWIONA FUNKCJA GPS
 function getLocation() {
     const status = document.getElementById('location-status');
-    status.innerText = "���️ Szukam sygnału...";
+    // Emotka satelity
+    status.innerText = "🛰️ Szukam sygnału...";
     
     if (!navigator.geolocation) {
         status.innerText = "❌ Twój telefon nie wspiera GPS";
         return;
     }
 
-    // Opcje wymuszające dokładność (ważne dla Androida/iOS)
     const options = {
         enableHighAccuracy: true,
         timeout: 10000,
@@ -78,6 +76,7 @@ function getLocation() {
         (pos) => {
             currentLat = pos.coords.latitude;
             currentLng = pos.coords.longitude;
+            // Emotka sukcesu
             status.innerText = `✅ ${currentLat.toFixed(5)}, ${currentLng.toFixed(5)}`;
             status.style.color = "green";
             checkReadyToSave();
@@ -114,8 +113,8 @@ function renderNotes() {
         div.className = 'note-card';
         div.innerHTML = `
             <img src="${note.image}">
-            <p><strong>��� Lokalizacja:</strong> ${note.lat ? `<a href="https://maps.google.com/?q=${note.lat},${note.lng}" target="_blank">${note.lat.toFixed(4)}, ${note.lng.toFixed(4)}</a>` : 'Brak danych'}</p>
-            <p class="note-date">��� ${note.date}</p>
+            <p><strong>📍 Lokalizacja:</strong> ${note.lat ? `<a href="https://maps.google.com/?q=${note.lat},${note.lng}" target="_blank">${note.lat.toFixed(4)}, ${note.lng.toFixed(4)}</a>` : 'Brak danych'}</p>
+            <p class="note-date">📅 ${note.date}</p>
         `;
         list.appendChild(div);
     });
